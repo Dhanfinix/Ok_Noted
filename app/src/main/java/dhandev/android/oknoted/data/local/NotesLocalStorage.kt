@@ -18,36 +18,48 @@ class NotesLocalStorage(
 ) : BaseDataStorePreference() {
     override val dataStore = context.notesDataStore
     private val NOTES_KEY = stringPreferencesKey("notes_key")
-    suspend fun saveNotes(notes: List<NoteItemData>) {
+    suspend fun saveNotes(notes: List<NoteItemData>, onSaved: () -> Unit = {}) {
         val notesJson = Json.encodeToString(notes)
         savePreference(NOTES_KEY, notesJson)
+        onSaved()
     }
 
     fun getNotes(): Flow<List<NoteItemData>> = getPreference(NOTES_KEY, "[]").map { notesJson ->
         Json.decodeFromString(notesJson)
     }
 
-    suspend fun addNote(newNote: NoteItemData) {
+    suspend fun addNote(
+        newNote: NoteItemData,
+        onSaved: () -> Unit = {}
+    ) {
         val currentNotes = getNotes().first()
         val updatedNotes = currentNotes.toMutableList().apply { add(newNote) }
-        saveNotes(updatedNotes)
+        saveNotes(updatedNotes, onSaved)
     }
 
-    suspend fun removeNote(note: NoteItemData) {
+    suspend fun removeNote(
+        note: NoteItemData,
+        onSaved: () -> Unit
+    ) {
         val currentNotes = getNotes().first()
         val updatedNotes = currentNotes.toMutableList().apply { remove(note) }
-        saveNotes(updatedNotes)
+        saveNotes(updatedNotes, onSaved)
     }
 
     suspend fun editNote(
-        oldNote: NoteItemData,
-        newNote: NoteItemData
+        timestamp: Long,
+        newNote: NoteItemData,
+        onSaved: () -> Unit
     ) {
         val currentNotes = getNotes().first()
         val updatedNotes = currentNotes.toMutableList().apply {
-            val index = indexOf(oldNote)
+            val index = indexOf(this.find { it.timeStamp == timestamp })
             if (index != -1) set(index, newNote)
         }
-        saveNotes(updatedNotes)
+        saveNotes(updatedNotes, onSaved)
+    }
+
+    fun getNoteByTimestamp(timestamp: Long): Flow<NoteItemData?> = getNotes().map { notes ->
+        notes.find { it.timeStamp == timestamp }
     }
 }

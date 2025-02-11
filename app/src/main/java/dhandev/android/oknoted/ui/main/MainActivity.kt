@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dhandev.android.oknoted.data.NoteItemData
 import dhandev.android.oknoted.databinding.ActivityMainBinding
+import dhandev.android.oknoted.ui.detail.DetailActivity
 import dhandev.android.oknoted.ui.main.note_rv.NoteItemAdapter
 import dhandev.android.oknoted.ui.main.note_rv.NoteItemDelegate
 
@@ -42,15 +43,13 @@ class MainActivity : AppCompatActivity() {
             rvContent.layoutManager = LinearLayoutManager(this@MainActivity)
             adapter.delegate = object : NoteItemDelegate {
                 override fun onClick(value: NoteItemData) {
-                    Toast.makeText(this@MainActivity, value.title, Toast.LENGTH_SHORT).show()
+                    DetailActivity.open(this@MainActivity, value.timeStamp)
                 }
             }
             rvContent.adapter = adapter
 
             fab.setOnClickListener {
-                viewModel.addNote(
-                    NoteItemData("Fab", "Added from fab")
-                )
+                DetailActivity.open(this@MainActivity)
             }
         }
     }

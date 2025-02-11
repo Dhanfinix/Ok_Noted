@@ -27,11 +27,4 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-
-    fun addNote(newNote: NoteItemData) {
-        viewModelScope.launch {
-            notesLocalStorage.addNote(newNote)
-            getNotes() // Refresh the notes list
-        }
-    }
 }

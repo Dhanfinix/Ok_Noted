@@ -2,4 +2,10 @@
     <string name="app_name">Ok Noted</string>
     <string name="add">Add Note</string>
     <string name="empty_notes">Empty Notes</string>
+    <string name="back">Back</string>
+    <string name="delete">Delete</string>
+    <string name="note_detail">Note Detail</string>
+    <string name="note_title">Note title</string>
+    <string name="note_content">Note content</string>
+    <string name="save">Save</string>
 </resources>
