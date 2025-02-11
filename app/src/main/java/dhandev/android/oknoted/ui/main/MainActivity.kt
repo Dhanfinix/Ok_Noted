@@ -1,21 +1,33 @@
-package dhandev.android.oknoted
+package dhandev.android.oknoted.ui.main
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dhandev.android.oknoted.data.NoteItemData
 import dhandev.android.oknoted.databinding.ActivityMainBinding
+import dhandev.android.oknoted.ui.main.note_rv.NoteItemAdapter
+import dhandev.android.oknoted.ui.main.note_rv.NoteItemDelegate
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: NoteItemAdapter
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupObserver()
+        setupView()
+    }
+
+    private fun setupView() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -25,21 +37,40 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        adapter = NoteItemAdapter(listOf(
-            NoteItemData("Test Title", "Test note content"),
-            NoteItemData("Test Title", "Test note content"),
-            NoteItemData("Test Title", "Test note content"),
-            NoteItemData("Test Title", "Test note content"),
-            NoteItemData("Test Title", "Test note content"),
-        ))
         binding.apply {
+            adapter = NoteItemAdapter()
             rvContent.layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter.delegate = object : NoteItemDelegate{
+            adapter.delegate = object : NoteItemDelegate {
                 override fun onClick(value: NoteItemData) {
                     Toast.makeText(this@MainActivity, value.title, Toast.LENGTH_SHORT).show()
                 }
             }
             rvContent.adapter = adapter
+
+            fab.setOnClickListener {
+                viewModel.addNote(
+                    NoteItemData("Fab", "Added from fab")
+                )
+            }
+        }
+    }
+
+    private fun setupObserver() {
+        viewModel.notes.observe(this) { notes ->
+            showContent(notes.isNotEmpty())
+            adapter.updateNotes(notes)
+        }
+    }
+
+    private fun showContent(visible: Boolean) {
+        binding.apply {
+            if (visible) {
+                rvContent.visibility = View.VISIBLE
+                emptyState.visibility = View.GONE
+            } else {
+                rvContent.visibility = View.GONE
+                emptyState.visibility = View.VISIBLE
+            }
         }
     }
 }

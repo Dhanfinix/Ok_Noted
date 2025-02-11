@@ -1,4 +1,4 @@
-package dhandev.android.oknoted
+package dhandev.android.oknoted.ui.main.note_rv
 
 import androidx.recyclerview.widget.RecyclerView
 import dhandev.android.oknoted.data.NoteItemData
