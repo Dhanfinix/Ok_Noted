@@ -17,7 +17,7 @@ class DetailViewModel @Inject constructor(
 ): ViewModel() {
     val isEditMode = MutableLiveData(false)
     val enableSave = MediatorLiveData<Boolean>()
-    private val timeStamp = MutableLiveData(0L)
+    val timeStamp = MutableLiveData(0L)
     val title = MutableLiveData("")
     val note = MutableLiveData("")
     var originalNote: NoteItemData? = null

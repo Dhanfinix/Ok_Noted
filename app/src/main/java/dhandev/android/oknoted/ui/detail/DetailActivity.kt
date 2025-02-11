@@ -2,6 +2,8 @@ package dhandev.android.oknoted.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
@@ -10,9 +12,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
+import dhandev.android.oknoted.R
 import dhandev.android.oknoted.databinding.ActivityDetailBinding
 
 @AndroidEntryPoint
@@ -57,6 +59,7 @@ class DetailActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.topAppBar)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -64,8 +67,22 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.apply {
-            ivBack.setOnClickListener {
+            topAppBar.setNavigationOnClickListener {
+                enableBack = isChanged()
                 onBackPressedDispatcher.onBackPressed()
+            }
+            topAppBar.setOnMenuItemClickListener {
+                when(it.itemId){
+                    R.id.menu_delete -> {
+                        showRemoveNoteConfirmationDialog {
+                            detailViewModel.removeNote {
+                                onBackPressedDispatcher.onBackPressed()
+                            }
+                        }
+                        true
+                    }
+                    else -> true
+                }
             }
             etTitle.addTextChangedListener {
                 detailViewModel.updateTitle(it.toString())
@@ -87,14 +104,6 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
             }
-            ivDelete.isVisible = detailViewModel.isEditMode.value == true
-            ivDelete.setOnClickListener {
-                showRemoveNoteConfirmationDialog{
-                    detailViewModel.removeNote{
-                        onBackPressedDispatcher.onBackPressed()
-                    }
-                }
-            }
         }
         onBackPressedDispatcher.addCallback {
             if (enableBack)
@@ -105,9 +114,14 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun isChanged() =
+    private fun isChanged() = if (detailViewModel.isEditMode.value == true){
         detailViewModel.originalNote?.title == detailViewModel.title.value &&
-            detailViewModel.originalNote?.note == detailViewModel.note.value
+                detailViewModel.originalNote?.note == detailViewModel.note.value
+    } else {
+        detailViewModel.title.value == "" &&
+                detailViewModel.note.value == ""
+    }
+
 
     private fun showExitConfirmationDialog() {
         AlertDialog.Builder(this)
@@ -138,5 +152,16 @@ class DetailActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.detail_top_app_bar, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val deleteItem: MenuItem? = menu?.findItem(R.id.menu_delete)
+        deleteItem?.isVisible = intent.getLongExtra(TIME_STAMP, 0L) != 0L
+        return super.onPrepareOptionsMenu(menu)
     }
 }

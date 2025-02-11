@@ -1,48 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.detail.DetailActivity"
-    android:orientation="vertical">
-    <ScrollView
+    tools:context=".ui.detail.DetailActivity">
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            style="?attr/collapsingToolbarLayoutLargeStyle"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/collapsingToolbarLayoutMediumSize">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="0dp"
+                app:layout_collapseMode="pin"
+                app:title="@string/note_detail"
+                app:navigationContentDescription="@string/back"
+                app:navigationIcon="@drawable/baseline_arrow_back_24"
+                app:menu="@menu/detail_top_app_bar"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="52dp"
             android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/appBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                tools:ignore="UseCompoundDrawables">
-                <ImageView
-                    android:id="@+id/ivBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_arrow_back_24"
-                    android:padding="16dp"
-                    android:contentDescription="@string/back"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/note_detail"
-                    android:layout_weight="1"
-                    style="@style/TextAppearance.Material3.HeadlineMedium"/>
-                <ImageView
-                    android:id="@+id/ivDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_delete_24"
-                    app:tint="@color/red"
-                    android:padding="16dp"
-                    android:contentDescription="@string/delete"/>
-            </LinearLayout>
             <EditText
                 android:id="@+id/etTitle"
                 android:layout_width="match_parent"
@@ -66,7 +60,7 @@
                 tools:text="as dasd asd as dasa sda sda sd asd asd asd a as dasd asd as dasa sda sda sdas dasd asd as dasa sda sda sd asd asd asd aas dasd asd as dasa sda sda sd asd asd asd aas dasd asd as dasa sda sda sd asd asd asd aas dasd asd as dasa sda sda sd asd asd asd aas dasd asd as dasa sda sda sd asd asd asd aas dasd asd as dasa sda sda sd asd asd asd a asd asd asd a "
                 style="@style/TextAppearance.Material3.BodyMedium"/>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
     <Button
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
@@ -75,4 +69,4 @@
         android:layout_marginBottom="16dp"
         android:text="@string/save"
         android:layout_gravity="bottom"/>
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
