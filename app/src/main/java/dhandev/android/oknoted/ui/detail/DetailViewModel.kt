@@ -1,5 +1,6 @@
 package dhandev.android.oknoted.ui.detail
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,10 +16,19 @@ class DetailViewModel @Inject constructor(
     private val notesLocalStorage: NotesLocalStorage
 ): ViewModel() {
     val isEditMode = MutableLiveData(false)
+    val enableSave = MediatorLiveData<Boolean>()
     private val timeStamp = MutableLiveData(0L)
-    private val title = MutableLiveData("")
-    private val note = MutableLiveData("")
-    private var originalNote: NoteItemData? = null
+    val title = MutableLiveData("")
+    val note = MutableLiveData("")
+    var originalNote: NoteItemData? = null
+
+    init {
+        enableSave.addSource(title) { checkEnableSave() }
+        enableSave.addSource(note) { checkEnableSave() }
+    }
+    private fun checkEnableSave() {
+        enableSave.value = !title.value.isNullOrEmpty() && !note.value.isNullOrEmpty()
+    }
 
     fun updateTimeStamp(newTimeStamp: Long) {
         timeStamp.value = newTimeStamp

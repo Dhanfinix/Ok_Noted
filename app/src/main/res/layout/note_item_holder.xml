@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.HeadlineSmall"
             android:maxLines="1"
+            android:ellipsize="marquee"
             tools:text="This is my note app"/>
         <TextView
             android:id="@+id/tvNote"
