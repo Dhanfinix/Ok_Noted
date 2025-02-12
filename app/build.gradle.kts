@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.serialization)
     kotlin("kapt")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -54,6 +55,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 }
 
@@ -71,7 +73,21 @@ dependencies {
     //manually added libs
     implementation(libs.datastore)
     implementation(libs.dagger.hilt)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    debugImplementation(libs.androidx.ui.tooling)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.serialization)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    //compose lib
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.tooling)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.navigation.compose)
 }
