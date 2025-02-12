@@ -9,9 +9,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import dhandev.android.oknoted.R
 import dhandev.android.oknoted.data.NoteItemData
 import dhandev.android.oknoted.databinding.ActivityMainBinding
 import dhandev.android.oknoted.ui.detail.DetailActivity
+import dhandev.android.oknoted.ui.main.note_rv.MarginFirstLastItemDecoration
 import dhandev.android.oknoted.ui.main.note_rv.NoteItemAdapter
 import dhandev.android.oknoted.ui.main.note_rv.NoteItemDelegate
 
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
             insets
         }
 
@@ -46,6 +48,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             rvContent.adapter = adapter
+            rvContent.addItemDecoration(
+                MarginFirstLastItemDecoration(
+                    resources.getDimensionPixelSize(R.dimen.top_margin),
+                    resources.getDimensionPixelSize(R.dimen.bottom_margin)
+                )
+            )
 
             fab.setOnClickListener {
                 DetailActivity.open(this@MainActivity)
