@@ -27,7 +27,7 @@ class DetailComposeViewModel @Inject constructor(
     fun isBackEnable(): Boolean {
         val state = _uiState.value
         return if (state.isEditMode) {
-            state.originalNote?.title == state.title && state.originalNote?.note == state.note
+            state.originalNote?.title == state.title && state.originalNote.note == state.note
         } else {
             state.title.isEmpty() && state.note.isEmpty()
         }
@@ -37,7 +37,7 @@ class DetailComposeViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 timeStamp = newTimeStamp,
-                isEditMode = if (newTimeStamp != 0L) true else it.isEditMode
+                isEditMode = newTimeStamp != 0L
             )
         }
     }
