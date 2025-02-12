@@ -1,4 +1,4 @@
-package dhandev.android.oknoted.ui_compose.ui.theme
+package dhandev.android.oknoted.ui_compose.theme
 
 import androidx.compose.ui.graphics.Color
 
