@@ -67,6 +67,11 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.apply {
+            topAppBar.title =
+            if (detailViewModel.isEditMode.value == true)
+                resources.getString(R.string.note_detail)
+            else
+                resources.getString(R.string.add)
             topAppBar.setNavigationOnClickListener {
                 enableBack = isChanged()
                 onBackPressedDispatcher.onBackPressed()
