@@ -1,21 +1,21 @@
-package dhandev.android.oknoted.ui.main
+package dhandev.android.oknoted.ui_compose.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dhandev.android.oknoted.data.NoteItemData
 import dhandev.android.oknoted.data.local.NotesLocalStorage
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class MainComposeViewModel @Inject constructor(
     private val notesLocalStorage: NotesLocalStorage?
 ): ViewModel() {
-    private val _notes = MutableLiveData<List<NoteItemData>>(emptyList())
-    val notes: LiveData<List<NoteItemData>> = _notes
+    private val _notes = MutableStateFlow<List<NoteItemData>>(emptyList())
+    val notes: StateFlow<List<NoteItemData>> = _notes
     init {
         getNotes()
     }

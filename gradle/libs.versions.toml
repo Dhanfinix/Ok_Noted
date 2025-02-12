@@ -17,6 +17,7 @@ lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.0"
 composeBom = "2025.01.00"
 navigation = "2.8.5"
+hilt-nav = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,6 +45,7 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+hilt-nav = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-nav" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
