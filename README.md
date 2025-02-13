@@ -1,4 +1,9 @@
 # Ok Noted - Android Note-Taking App (View vs. Compose Comparison)
+![ComposeVsView](https://github.com/user-attachments/assets/0dc912b8-0ba3-4560-83b0-639b24206ff9)
+
+**Compose (Left)** and **View (Right)**
+
+---
 
 **Ok Noted** is an Android note-taking app designed to demonstrate the differences between **traditional View-based UI** (XML) and modern **Jetpack Compose** implementations. This project serves as a practical comparison for developers to explore both paradigms side-by-side, with the same core features (create, read, edit, delete notes) built using different UI frameworks.
 
