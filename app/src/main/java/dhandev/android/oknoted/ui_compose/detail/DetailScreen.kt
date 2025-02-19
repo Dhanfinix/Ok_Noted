@@ -1,6 +1,7 @@
 package dhandev.android.oknoted.ui_compose.detail
 
 import androidx.activity.compose.BackHandler
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,6 +47,7 @@ fun DetailScreen(
     modifier: Modifier = Modifier,
     viewModel: DetailComposeViewModel = hiltViewModel(),
     noteItemData: NoteItemData? = null,
+    @StringRes title: Int = Destinations.Detail().title,
     onBack: ()->Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -59,7 +61,7 @@ fun DetailScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             MediumTopAppBar(
-                title = { Text(stringResource(Destinations.Detail().title)) },
+                title = { Text(stringResource(title)) },
                 navigationIcon = {
                     IconButton(
                         onClick = {onBackClicked(viewModel, onBack)}
@@ -247,7 +249,11 @@ private fun DetailScreenPreview(
     OkNotedTheme {
         DetailScreen(
             viewModel = DetailComposeViewModel(null),
-            noteItemData = noteItemData
+            noteItemData = noteItemData,
+            title = if (noteItemData != null)
+                R.string.note_detail
+            else
+                R.string.add
         ) { }
     }
 }

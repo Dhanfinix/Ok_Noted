@@ -22,15 +22,19 @@ fun NavigationHost(
         startDestination = Destinations.Main()
     ){
         composable<Destinations.Main> {
-            MainScreen{
-                val json = Json.encodeToString(it)
+            MainScreen{data->
+                val json = data?.let { Json.encodeToString(it) }
                 navController.navigate(Destinations.Detail(json))
             }
         }
         composable<Destinations.Detail> {backStackEntry->
             val json = backStackEntry.toRoute<Destinations.Detail>().noteItemDataJson
+            val title = backStackEntry.toRoute<Destinations.Detail>().title
             val noteItemData = json?.let { Json.decodeFromString<NoteItemData>(it) }
-            DetailScreen(noteItemData = noteItemData){
+            DetailScreen(
+                noteItemData = noteItemData,
+                title = title
+            ){
                 navController.navigateUp()
             }
         }
