@@ -1,4 +1,6 @@
 # Ok Noted - Android Note-Taking App (View vs. Compose Comparison)
+![OkNoteIcon](app/src/main/ic_launcher-playstore.png)
+
 ![ComposeVsView](https://github.com/user-attachments/assets/0dc912b8-0ba3-4560-83b0-639b24206ff9)
 
 **Compose (Left)** and **View (Right)**
