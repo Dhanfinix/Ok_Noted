@@ -23,7 +23,7 @@ class MainViewModel @Inject constructor(
     private fun getNotes() {
         viewModelScope.launch {
             notesLocalStorage.getNotes().collect { notesList ->
-                _notes.value = notesList
+                _notes.postValue(notesList)
             }
         }
     }
